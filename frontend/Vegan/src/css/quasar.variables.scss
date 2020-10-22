@@ -22,3 +22,12 @@ $positive  : #21BA45;
 $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
+@import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@400;600;700;800&display=swap');
+
+// Set the default font-family
+$typography-font-family : 'Commissioner', sans-serif !default;
+
+// Fix font-weight values to match the imported font family weights
+$text-weights: (light: 400, regular: 600, bold: 700,  bolder: 800) !default;
+// $button-font-weight: 600 // or 400 if you prefer thinner
