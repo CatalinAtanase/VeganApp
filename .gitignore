@@ -3,5 +3,6 @@ backend/**/*.py[cod]
 backend/**/*$py.class
 
 backend/env
+backend/core/.env
 backend/*.sqlite3
 backend/media
