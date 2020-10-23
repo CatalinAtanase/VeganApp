@@ -18,6 +18,9 @@ env\scripts\activate
 pip install -r requirements.txt
 ```
 
+## Create a .env file inside "core"
+You need a valid ACCESS_TOKEN_SECRET and a valid REFRESH_TOKEN_SECRET
+
 ### Start the app in development mode (hot-code reloading, error reporting, other.)
 ```bash
 python manage.py runserver
