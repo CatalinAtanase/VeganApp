@@ -10,10 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(
+    # set casting, default value
+    # DEBUG=(bool, False)
+)
+
+environ.Env.read_env()
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,13 +45,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'accounts.apps.AccountsConfig',
+
+    'rest_framework',
+    'corsheaders',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -118,3 +134,54 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# SECRET FOR ACCESS AND REFRESH
+REFRESH_TOKEN_SECRET = env('REFRESH_TOKEN_SECRET')
+ACCESS_TOKEN_SECRET = env('ACCESS_TOKEN_SECRET')
+
+# REST FRAMEWORK SETTINGS
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'accounts.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',  # make all endpoints private
+    )
+}
+
+# CORS SETTINGS
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:8080",
+    "https://localhost:8080",
+    "http://127.0.0.1:8080",
+    "https://127.0.0.1:8080",
+)
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'Authorization',
+    'content-type',
+    'Content-Type',
+    'withCredentials',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Set-Cookie',
+]
+SESSION_COOKIE_SAMESITE = None
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:8080",
+#     "https://localhost:8080",
+#     "http://127.0.0.1:8080",
+#     "https://127.0.0.1:8080",
+# ]
+
+# EMAIL BACKEND FOR TESTING ONLY
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# AUTH USER MODEL
+AUTH_USER_MODEL = 'accounts.User'
