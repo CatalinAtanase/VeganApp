@@ -904,6 +904,21 @@
     global-agent "^2.0.2"
     global-tunnel-ng "^2.7.1"
 
+"@google/markerclusterer@^2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@google/markerclusterer/-/markerclusterer-2.0.9.tgz#04e50e1bd0ea90e7c21ae487e5890180ce9a5f83"
+  integrity sha512-MMOvRRZTe8MtfLmr+3GmpnvbQPvdta7DhLgeapm3NpdBGe7sr8Gt3TvR/2ckBHttzjKz/dGd4v+GPmM34cC0Sg==
+
+"@google/markerclustererplus@^5.1.3":
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/@google/markerclustererplus/-/markerclustererplus-5.1.3.tgz#dd7ddbb2a17c977e0b0252c3d8e61fcf502b1bf2"
+  integrity sha512-2wQGO6GGbKPC2tNmTz8ei1zBa64zV3QBBvgLHiPvYqUA63230qNqfQpN+nzsrl1RM40NJtty4Y1CEQKxq6MBGg==
+
+"@googlemaps/markerclustererplus@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@googlemaps/markerclustererplus/-/markerclustererplus-1.0.3.tgz#a773cd69c8d73c9f6aa3864dcdc224a47e76bcb3"
+  integrity sha512-k2TIVZptaigMtgOEb7SY1DlKHgdiHC9n4Dym5/uRWWouyZNup+DvUqEt//ZZPPeFhNp6JOmAOfgMvjpESfwerw==
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -1147,6 +1162,11 @@
   dependencies:
     "@types/minimatch" "*"
     "@types/node" "*"
+
+"@types/googlemaps@^3.40.2":
+  version "3.40.2"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.40.2.tgz#282fc5383ffdb035e1698f846c941cad501f02cb"
+  integrity sha512-LYlp497JZ/AjsjmGQMHcKmqO/MkUSLeUtsY++CQwy3VN8rqeotMacxnCF3xoGd8LphNqDdgQX7PL6qG0Pmh0Hw==
 
 "@types/html-minifier-terser@^5.0.0":
   version "5.1.1"
