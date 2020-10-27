@@ -14,8 +14,9 @@
       </p>
     </div>
     <div class="form-container">
-      <q-form @submit="onSubmit" @reset="onReset">
+      <q-form @submit="onSubmit">
         <q-input
+          v-model="state.username"
           autofocus
           label="Username"
           color="grey-2"
@@ -24,6 +25,7 @@
           input-style=" color: #fff; font-size: 13px;"
         />
         <q-input
+          v-model="state.email"
           autofocus
           label="Email"
           color="grey-2"
@@ -32,6 +34,7 @@
           input-style=" color: #fff; font-size: 13px;"
         />
         <q-input
+          v-model="state.password"
           label="Password"
           color="grey-2"
           label-color="grey-2"
@@ -49,6 +52,7 @@
           </template>
         </q-input>
         <q-input
+          v-model="state.password2"
           label="Repeat Passsword"
           color="grey-2"
           label-color="grey-2"
@@ -108,6 +112,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from "@vue/composition-api";
+import { sendNotification } from "../modules/notify";
+import { useUser } from "../modules/useUser";
 
 export default defineComponent({
   name: "GetStarted",
@@ -123,10 +129,63 @@ export default defineComponent({
     });
 
     const goBack = () => {
-      root.$router.push("get_started");
+      root.$router.push({name: "getStarted"});
     };
 
-    return { state, goBack };
+     const { login, register } = useUser();
+
+    const onSubmit = async () => {
+      let errors = [];
+      if (state.password != state.password2) {
+        errors.push("Passwords don't match");
+      }
+      // if (!state.accept) {
+      //   errors.push("You must accept the terms and conditions");
+      // }
+
+      if (errors.length == 0) {
+        try {
+          const { ok, error, data } = await register(
+            state.username,
+            state.email,
+            state.password
+          );
+
+          if (ok) {
+            sendNotification({
+              type: "positive",
+              message: `${
+                data.message ? data.message : "Your account has been created."
+              }`,
+              timeout: 1000
+            });
+
+            root.$router.push((root.$route.query.redirect as string) || "/");
+          } else {
+            for (let key in error) {
+              sendNotification({
+                type: "negative",
+                message: `${error[key]}`,
+                timeout: 1000
+              });
+            }
+          }
+        } catch (error) {
+          console.log("login comp: ", error.response.data);
+        }
+      } else {
+        errors.forEach(err => {
+          sendNotification({
+            type: "negative",
+            message: `${err}`,
+            timeout: 2000
+          });
+        });
+      }
+    };
+
+
+    return { state, goBack, onSubmit };
   }
 });
 </script>
