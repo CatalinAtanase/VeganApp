@@ -1,15 +1,15 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <!-- <q-header elevated>
       <q-toolbar>
-        <!-- <q-btn
+        <q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
-        /> -->
+        />
 
         <q-toolbar-title>
           VeganApp
@@ -45,9 +45,10 @@
           v-bind="link"
         />
       </q-list>
-    </q-drawer>
+    </q-drawer> -->
 
-    <q-footer elevated>
+    <q-footer class="shadow-2">
+    <!-- <q-footer elevated> -->
       <q-tabs
         no-caps
         v-model="tab"
@@ -200,7 +201,7 @@ export default defineComponent({
       root.$router.push({ name: "login" });
     };
 
-    return { leftDrawerOpen, essentialLinks, routes, tab, logout, user  };
+    return { leftDrawerOpen, essentialLinks, routes, tab,  logout, user  };
   }
 });
 </script>

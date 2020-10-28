@@ -1,5 +1,4 @@
 <template>
-  <!-- <q-page class="row items-center justify-evenly"> -->
   <q-page class="row relative-position">
     <!-- <div
       class="absolute row"
@@ -8,6 +7,12 @@
       <p>ss</p>
       <p>ss2</p>
     </div> -->
+    <div class="absolute row top-container">
+      <div class="col-12">
+        <SearchBar />
+      </div>
+    </div>
+
     <div id="map" class="row"></div>
   </q-page>
 </template>
@@ -15,9 +20,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "@vue/composition-api";
 import { useGMaps, getMap, setMap } from "../modules/useGMaps";
+import SearchBar from "components/SearchBar.vue";
 
 export default defineComponent({
-  name: "PageIndex",
+  name: "HomePage",
+  components: { SearchBar },
   setup() {
     onMounted(async () => {
       try {
@@ -70,5 +77,13 @@ export default defineComponent({
 #map {
   width: 100vw;
   height: inherit;
+}
+
+.top-container {
+  width: 80%;
+  margin-top: 2em;
+  left: 10%;
+  z-index: 100;
+  min-height: 60px;
 }
 </style>
