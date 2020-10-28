@@ -59,7 +59,6 @@
         <q-route-tab
           v-for="(route, index) in routes"
           exact
-          size="32"
           :key="index"
           :to="route.to"
           :icon="route.name == $route.name ? route.iconSelected : route.icon"
