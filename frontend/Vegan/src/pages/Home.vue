@@ -1,6 +1,13 @@
 <template>
   <!-- <q-page class="row items-center justify-evenly"> -->
-  <q-page class="row">
+  <q-page class="row relative-position">
+    <!-- <div
+      class="absolute row"
+      style="min-height: 8vh; top:20px; left: 10px; z-index: 100; width: 100%;"
+    >
+      <p>ss</p>
+      <p>ss2</p>
+    </div> -->
     <div id="map" class="row"></div>
   </q-page>
 </template>

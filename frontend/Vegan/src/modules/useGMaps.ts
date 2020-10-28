@@ -56,7 +56,8 @@ export const useGMaps = async () => {
             zoom,
             center: position,
             fullscreenControl: false,
-            gestureHandling: "greedy"
+            gestureHandling: "greedy",
+            zoomControl: false
           }
         )
       );

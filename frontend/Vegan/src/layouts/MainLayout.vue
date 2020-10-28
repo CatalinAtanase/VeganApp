@@ -2,17 +2,17 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
+        <!-- <q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
-        />
+        /> -->
 
         <q-toolbar-title>
-          Quasar App
+          VeganApp
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -38,9 +38,24 @@
     </q-drawer>
 
     <q-footer elevated>
-      <q-toolbar>
-        <q-toolbar-title>Footer</q-toolbar-title>
-      </q-toolbar>
+      <q-tabs
+        no-caps
+        v-model="tab"
+        indicator-color="transparent"
+        active-color="black"
+        class="text-grey-9 shadow-2 tabs-container"
+        align="justify"
+      >
+        <q-route-tab
+          v-for="(route, index) in routes"
+          exact
+          size="32"
+          :key="index"
+          :to="route.to"
+          :icon="route.name == $route.name ? route.iconSelected : route.icon"
+          :name="route.label"
+        />
+      </q-tabs>
     </q-footer>
 
     <q-page-container>
@@ -99,6 +114,37 @@ const linksData = [
   }
 ];
 
+const routes = [
+  {
+    to: { name: "home" },
+    name: "home",
+    icon: "o_home",
+    iconSelected: "home",
+    label: "Home"
+  },
+  {
+    to: { name: "index" },
+    name: "index",
+    icon: "o_explore",
+    iconSelected: "explore",
+    label: "Explore"
+  },
+  {
+    to: { name: "index" },
+    name: "favorites",
+    icon: "favorite_border",
+    iconSelected: "favorite",
+    label: "Favorites"
+  },
+  {
+    to: { name: "profile" },
+    name: "profile",
+    icon: "o_person",
+    iconSelected: "person",
+    label: "Profile"
+  }
+];
+
 import { defineComponent, onUnmounted, ref } from "@vue/composition-api";
 import { useGMaps } from "../modules/useGMaps";
 
@@ -108,14 +154,28 @@ export default defineComponent({
   setup() {
     const leftDrawerOpen = ref(false);
     const essentialLinks = ref(linksData);
+    const tab = ref("");
 
     onUnmounted(async () => {
       const { loaded, markers } = await useGMaps();
-      markers.value = []
-      loaded.value = false
+      markers.value = [];
+      loaded.value = false;
     });
 
-    return { leftDrawerOpen, essentialLinks };
+    return { leftDrawerOpen, essentialLinks, routes, tab };
   }
 });
 </script>
+
+<style lang="scss">
+.tabs-container {
+  padding-bottom: 12px;
+  background: #fafafa;
+}
+
+// .q-tab__icon {
+//   font-size: 32px;
+//   width: 32px;
+//   height: 32px;
+// }
+</style>
