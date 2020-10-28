@@ -154,8 +154,18 @@ const routes = [
   }
 ];
 
-import { defineComponent, onUnmounted, ref } from "@vue/composition-api";
+import {
+  defineComponent,
+  onBeforeMount,
+  onUnmounted,
+  ref
+} from "@vue/composition-api";
 import { useGMaps } from "../modules/useGMaps";
+import { getAccessToken, setAccessToken } from "../modules/useAccessToken";
+import { getStaticUser } from "../modules/useStaticUser";
+import { useUser } from "../modules/useUser";
+import { deleteRefreshToken } from "../modules/useRefreshToken";
+import { sendNotification } from "../modules/notify";
 
 export default defineComponent({
   name: "MainLayout",
@@ -165,13 +175,32 @@ export default defineComponent({
     const essentialLinks = ref(linksData);
     const tab = ref("");
 
+    const { setUser, user } = useUser();
+
+    onBeforeMount(async () => {
+      if (getAccessToken()) {
+        setUser(getStaticUser());
+      }
+    });
+
     onUnmounted(async () => {
       const { loaded, markers } = await useGMaps();
       markers.value = [];
       loaded.value = false;
     });
 
-    return { leftDrawerOpen, essentialLinks, routes, tab };
+    const logout = () => {
+      setAccessToken("");
+      deleteRefreshToken();
+      user.value.isLoggedIn = false;
+      sendNotification({
+        type: "positive",
+        message: "You have been logged out."
+      });
+      root.$router.push({ name: "login" });
+    };
+
+    return { leftDrawerOpen, essentialLinks, routes, tab, logout, user  };
   }
 });
 </script>
