@@ -85,53 +85,6 @@ const linksData = [
     caption: "quasar.dev",
     icon: "school",
     link: "https://quasar.dev"
-<<<<<<< HEAD
-  },
-  {
-    title: "Github",
-    caption: "github.com/quasarframework",
-    icon: "code",
-    link: "https://github.com/quasarframework"
-  },
-  {
-    title: "Discord Chat Channel",
-    caption: "chat.quasar.dev",
-    icon: "chat",
-    link: "https://chat.quasar.dev"
-  },
-  {
-    title: "Forum",
-    caption: "forum.quasar.dev",
-    icon: "record_voice_over",
-    link: "https://forum.quasar.dev"
-  },
-  {
-    title: "Twitter",
-    caption: "@quasarframework",
-    icon: "rss_feed",
-    link: "https://twitter.quasar.dev"
-  },
-  {
-    title: "Facebook",
-    caption: "@QuasarFramework",
-    icon: "public",
-    link: "https://facebook.quasar.dev"
-  },
-  {
-    title: "Quasar Awesome",
-    caption: "Community Quasar projects",
-    icon: "favorite",
-    link: "https://awesome.quasar.dev"
-  }
-];
-
-import { defineComponent, onBeforeMount, ref } from "@vue/composition-api";
-import { useUser } from "../modules/useUser";
-import { getAccessToken, setAccessToken } from "../modules/useAccessToken";
-import { getStaticUser } from "../modules/useStaticUser";
-import { deleteRefreshToken } from "../modules/useRefreshToken";
-import { sendNotification } from "../modules/notify";
-=======
   },
   {
     title: "Github",
@@ -204,7 +157,6 @@ const routes = [
 
 import { defineComponent, onUnmounted, ref } from "@vue/composition-api";
 import { useGMaps } from "../modules/useGMaps";
->>>>>>> homepage
 
 export default defineComponent({
   name: "MainLayout",
@@ -220,30 +172,7 @@ export default defineComponent({
       loaded.value = false;
     });
 
-<<<<<<< HEAD
-    const { setUser, user } = useUser();
-
-    onBeforeMount(async () => {
-      if (getAccessToken()) {
-        setUser(getStaticUser());
-      }
-    });
-
-    const logout = () => {
-      setAccessToken("");
-      deleteRefreshToken();
-      user.value.isLoggedIn = false;
-      sendNotification({
-        type: "positive",
-        message: "You have been logged out."
-      });
-      root.$router.push({ name: "login" });
-    };
-
-    return { leftDrawerOpen, essentialLinks, logout, user };
-=======
     return { leftDrawerOpen, essentialLinks, routes, tab };
->>>>>>> homepage
   }
 });
 </script>
