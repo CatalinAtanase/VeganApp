@@ -64,6 +64,7 @@
           :to="route.to"
           :icon="route.name == $route.name ? route.iconSelected : route.icon"
           :name="route.label"
+          class="route-tab"
         />
       </q-tabs>
     </q-footer>
@@ -208,8 +209,12 @@ export default defineComponent({
 
 <style lang="scss">
 .tabs-container {
-  padding-bottom: 12px;
   background: #fafafa;
+}
+
+.route-tab {
+  padding-top: 6px;
+  padding-bottom: 20px;
 }
 
 // .q-tab__icon {
