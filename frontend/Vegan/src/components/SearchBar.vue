@@ -5,9 +5,10 @@
       ref="searchInput"
       rounded
       outlined
+      borderless
       v-model="state.searchInput"
       bg-color="white"
-      color="black"
+      color="transparent"
       dense
     >
     <!-- label | placehodler -->

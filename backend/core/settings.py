@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import environ
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'accounts.apps.AccountsConfig',
+    'restaurants.apps.RestaurantsConfig',
 
     'rest_framework',
     'corsheaders',
@@ -131,9 +133,11 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+# MEDIA SETTINGS
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # SECRET FOR ACCESS AND REFRESH
 REFRESH_TOKEN_SECRET = env('REFRESH_TOKEN_SECRET')
@@ -185,3 +189,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # AUTH USER MODEL
 AUTH_USER_MODEL = 'accounts.User'
+

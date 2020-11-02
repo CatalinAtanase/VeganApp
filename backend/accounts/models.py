@@ -87,3 +87,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
+    def save(self, *args, **kwargs):
+        print(self.username)
+        if self.username == "":
+            self.username = self.email.split("@")[0]
+
+        super().save(*args, **kwargs)
