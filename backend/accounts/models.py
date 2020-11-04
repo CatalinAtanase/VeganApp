@@ -93,3 +93,5 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.username = self.email.split("@")[0]
 
         super().save(*args, **kwargs)
+
+
