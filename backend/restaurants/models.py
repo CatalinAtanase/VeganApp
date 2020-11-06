@@ -42,6 +42,7 @@ class RestaurantImages(models.Model):
         verbose_name = 'Restaurant Image'
         verbose_name_plural = 'Restaurant Images'
 
+
 class Contact(TimeStamp):
     restaurant = models.ForeignKey(
         Restaurant,
@@ -75,8 +76,8 @@ class Coordinates(models.Model):
         return f"{self.contact.restaurant.name}'s coordinates"
 
     class Meta:
-        verbose_name="Coordinates"
-        verbose_name_plural="Coordinates"
+        verbose_name = "Coordinates"
+        verbose_name_plural = "Coordinates"
 
 
 class Rating(TimeStamp):
@@ -86,7 +87,7 @@ class Rating(TimeStamp):
         related_name='ratings'
     )
     user = models.ForeignKey(
-        User, 
+        User,
         on_delete=models.CASCADE,
         related_name='ratings'
     )
@@ -151,7 +152,7 @@ class Tips(models.Model):
         verbose_name = "Tip"
         verbose_name_plural = "Tips"
 
-    
+
 class Badge(models.Model):
     icon = models.ForeignKey(
         Icon,
@@ -165,16 +166,16 @@ class Badge(models.Model):
         return self.icon.name
 
 
-
 class RestaurantBadge(models.Model):
     badge = models.ForeignKey(
         Badge,
         on_delete=models.CASCADE,
-        related_name="restaurant_badges"
+        # related_name="restaurant_badges"
     )
     restaurant = models.ForeignKey(
         Restaurant,
         on_delete=models.CASCADE,
+        related_name="restaurant_badges"
     )
     added_at = models.DateTimeField(auto_now_add=True)
 
@@ -249,6 +250,9 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} for {self.restaurant.name}"
 
+    class Meta:
+        ordering = ['restaurant', 'type', 'name']
+
 
 class ProductImages(models.Model):
     product = models.ForeignKey(
@@ -256,7 +260,8 @@ class ProductImages(models.Model):
         on_delete=models.CASCADE,
         related_name="product_images"
     )
-    image = models.ImageField(upload_to=settings.MEDIA_ROOT + '/restaurants/products')
+    image = models.ImageField(
+        upload_to=settings.MEDIA_ROOT + '/restaurants/products')
 
     def __str__(self):
         return f"{self.product.name}'s image"
@@ -264,35 +269,3 @@ class ProductImages(models.Model):
     class Meta:
         verbose_name = 'Product Image'
         verbose_name_plural = 'Product Images'
-
-
-
-# class Menu(models.Model):
-#     restaurant = models.ForeignKey(
-#         Restaurant,
-#         on_delete=models.CASCADE,
-#         related_name='restaurant_menus'
-#     )
-
-#     def __str__(self):
-#         return f"{self.restaurant.name}'s menu"
-
-# Todo
-# class Product(models.Model):
-#     menu = models.ForeignKey(
-#         Menu,
-#         on_delete=models.CASCADE,
-#         related_name="menu_products"
-#     )
-#     price = models.DecimalField(
-#         max_digits=10,
-#         decimal_places=2
-#     )
-
-
-
-    
-
-
-    
-
