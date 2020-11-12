@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 from .views import (
-    MenuTypesViewSet, 
+    MenuTypesViewSet, RestaurantMapViewSet, 
     RestaurantViewSet, 
     ProductViewSet,
     BadgeViewSet,
@@ -14,10 +14,13 @@ from .views import (
     TipsViewSet,
     RestaurantBadgeViewSet,
     ReviewBadgeViewSet,
+    RestaurantModalViewSet,
 )
 
 router = routers.DefaultRouter()
 router.register('restaurants', RestaurantViewSet)
+router.register('restaurants-map', RestaurantMapViewSet)
+router.register('restaurants-modal', RestaurantModalViewSet)
 router.register('products', ProductViewSet)
 router.register('menu-types', MenuTypesViewSet)
 router.register('badges', BadgeViewSet)

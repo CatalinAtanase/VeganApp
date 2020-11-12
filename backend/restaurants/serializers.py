@@ -30,7 +30,7 @@ class CoordinatesSerializer(serializers.ModelSerializer):
 
 
 class ContactSerializer(serializers.ModelSerializer):
-    coordinates = CoordinatesSerializer(many=True)
+    coordinates = CoordinatesSerializer()
 
     class Meta:
         model = Contact
@@ -149,7 +149,7 @@ class ProductImagesSerializer(serializers.ModelSerializer):
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
-    contact = ContactSerializer(many=True)
+    contact = ContactSerializer()
     restaurant_badges = RestaurantBadgeSerializer(many=True)
     restaurant_products = ProductSerializer(many=True)
     images = RestaurantImagesSerializer(many=True)
@@ -171,19 +171,37 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
 
 class RestaurantMapSerializer(serializers.ModelSerializer):
-    contact = ContactSerializer(many=True)
-    restaurant_badges = RestaurantBadgeSerializer(many=True)
-    restaurant_tips = TipsSerializer(many=True)
+    contact = ContactSerializer()
+    # restaurant_badges = RestaurantBadgeSerializer(many=True)
+    # images = RestaurantImagesSerializer(many=True)
+    # restaurant_tips = TipsSerializer(many=True)
+    # Tips?? TODO
 
     class Meta:
         model = Restaurant
         fields = (
+            "id", 
+            # "name", 
+            # "description", 
+            "contact", 
+            # "images", 
+            # 'restaurant_badges',
+            # 'restaurant_tips',
+        )
+
+
+class RestaurantModalSerializer(serializers.ModelSerializer):   
+    contact = ContactSerializer()
+    restaurant_badges = RestaurantBadgeSerializer(many=True)
+    images = RestaurantImagesSerializer(many=True)
+
+    class Meta:
+        model = Restaurant
+        fields = (
+            "id", 
             "name", 
             "description", 
             "contact", 
             "images", 
             'restaurant_badges',
-            'restaurant_tips',
-            "created_at", 
-            "updated_at",
         )

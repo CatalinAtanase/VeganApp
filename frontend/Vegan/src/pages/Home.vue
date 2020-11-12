@@ -14,17 +14,28 @@
     </div>
 
     <div id="map" class="row"></div>
+    <div class="absolute row top-container">
+      <div class="col-12">
+        <RestaurantModal />
+      </div>
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "@vue/composition-api";
+import { defineComponent, onMounted, reactive, ref } from "@vue/composition-api";
 import { useGMaps, getMap, setMap } from "../modules/useGMaps";
 import SearchBar from "components/SearchBar.vue";
+import RestaurantModal from "components/RestaurantModal.vue";
+import {
+  restaurantMapInterface,
+  useRestaurant
+} from "../modules/useRestaurant";
+import { sendNotification } from "../modules/notify";
 
 export default defineComponent({
   name: "HomePage",
-  components: { SearchBar },
+  components: { SearchBar, RestaurantModal },
   setup() {
     onMounted(async () => {
       try {
@@ -32,8 +43,11 @@ export default defineComponent({
           initMap,
           placeMarker,
           markerClusterer,
-          markers,
-          loaded
+          customMarkers,
+          loaded,
+          loadMarkers,
+          markerFunction,
+          markers
         } = await useGMaps();
 
         if (!loaded.value) {
@@ -44,30 +58,47 @@ export default defineComponent({
               position: { lat: 44.4304, lng: 26.0979 }
             })
           );
-          markers.value.push(
-            placeMarker({
-              position: {
-                lat: 44.4268,
-                lng: 26.1025
-              },
-              map: getMap()
-            })
-          );
-          markers.value.push(
-            placeMarker({
-              position: {
-                lat: 44.438,
-                lng: 26.1025
-              },
-              map: getMap()
-            })
-          );
+          const { ok, error, data } = await loadMarkers();
+
+          if (ok) {
+            data.forEach((restaurant: restaurantMapInterface) => {
+              customMarkers.value.push({
+                marker: placeMarker({
+                  position: {
+                    lat: Number(restaurant.contact.coordinates.latitude),
+                    lng: Number(restaurant.contact.coordinates.longitude)
+                  },
+                  map: getMap()
+                }),
+                id: restaurant.id
+              });
+              markers.value.push(
+                placeMarker({
+                  position: {
+                    lat: Number(restaurant.contact.coordinates.latitude),
+                    lng: Number(restaurant.contact.coordinates.longitude)
+                  },
+                  map: getMap()
+                })
+              );
+            });
+          } else {
+            sendNotification({
+              type: "negative",
+              message: "Something went wrong. Please try again"
+            });
+          }
+          markers.value.forEach((marker, index) => {
+            markerFunction(marker, index);
+          });
           markerClusterer({ map: getMap(), markers: markers.value });
         }
       } catch (error) {
         console.error(error);
       }
     });
+    const { restaurants } = useRestaurant();
+
     return {};
   }
 });

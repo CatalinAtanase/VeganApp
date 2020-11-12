@@ -1,4 +1,17 @@
-from .models import Badge, Contact, Coordinates, Icon, MenuTypes, Product, ProductImages, Restaurant, RestaurantBadge, RestaurantImages, Review, Tips
+from .models import (
+    Badge, 
+    Contact, 
+    Coordinates, 
+    Icon, 
+    MenuTypes, 
+    Product, 
+    ProductImages, 
+    Restaurant, 
+    RestaurantBadge,
+    RestaurantImages, 
+    Review, 
+    Tips,
+)
 from django.shortcuts import render
 from rest_framework import viewsets, exceptions, status
 from .serializers import (
@@ -16,13 +29,22 @@ from .serializers import (
     TipsSerializer,
     BadgeSerializer,
     RestaurantBadgeSerializer,
-    ReviewSerializer
+    ReviewSerializer,
+    RestaurantMapSerializer,
+    RestaurantModalSerializer
 )
 
 
-
+# Restaurant full
 class RestaurantViewSet(viewsets.ModelViewSet):
     serializer_class = RestaurantSerializer
+    queryset = Restaurant.objects.all()
+    authentication_classes = []
+    permission_classes = []
+
+
+class RestaurantMapViewSet(viewsets.ModelViewSet):
+    serializer_class = RestaurantMapSerializer
     queryset = Restaurant.objects.all()
     authentication_classes = []
     permission_classes = []
@@ -101,6 +123,13 @@ class TipsViewSet(viewsets.ModelViewSet):
 class RestaurantBadgeViewSet(viewsets.ModelViewSet):
     serializer_class = RestaurantBadgeSerializer
     queryset = RestaurantBadge.objects.all()
+    authentication_classes = []
+    permission_classes = []
+
+
+class RestaurantModalViewSet(viewsets.ModelViewSet):
+    serializer_class = RestaurantModalSerializer
+    queryset = Restaurant.objects.all()
     authentication_classes = []
     permission_classes = []
 

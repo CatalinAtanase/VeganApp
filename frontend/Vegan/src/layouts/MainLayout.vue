@@ -186,7 +186,8 @@ export default defineComponent({
     });
 
     onUnmounted(async () => {
-      const { loaded, markers } = await useGMaps();
+      const { loaded, customMarkers, markers } = await useGMaps();
+      customMarkers.value = [];
       markers.value = [];
       loaded.value = false;
     });

@@ -1,3 +1,5 @@
+import { useRestaurant } from './useRestaurant';
+import { useApi } from "./useApi";
 import { toRefs } from "@vue/composition-api";
 import { reactive } from "@vue/composition-api";
 import gmapsInit from "../utils/gmap";
@@ -25,14 +27,22 @@ interface MarkerClustererInterface {
   markers: google.maps.Marker[];
 }
 
+interface customMarkersInterface {
+  marker: google.maps.Marker,
+  id: number
+}
+
 interface gMapState {
   loaded: boolean;
   markers: google.maps.Marker[];
+  customMarkers: customMarkersInterface[];
 }
+
 
 const state = reactive<gMapState>({
   loaded: false,
-  markers: []
+  markers: [],
+  customMarkers: [],
 });
 
 let map: google.maps.Map;
@@ -72,7 +82,7 @@ export const useGMaps = async () => {
     position,
     map,
     moveTo = false
-  }: placeMarkerInterface) => {
+  }: placeMarkerInterface): google.maps.Marker => {
     const marker: google.maps.Marker = new google.maps.Marker({
       position,
       map
@@ -92,7 +102,44 @@ export const useGMaps = async () => {
     });
   };
 
-  return { initMap, placeMarker, markerClusterer, ...toRefs(state) };
+  const loadMarkers = async () => {
+    const response = {
+      ok: Boolean(),
+      error: Object(),
+      data: Object()
+    };
+    try {
+      const { apiResponse } = await useApi({
+        url: "restaurants-map",
+      });
+      
+      if (!apiResponse.ok) {
+        response.error = apiResponse.error;
+      } else {
+        response.data = apiResponse.data;
+      }
+      response.ok = apiResponse.ok
+
+      // load restaurants
+      const {restaurants} = useRestaurant()
+      restaurants.value = response.data
+
+      return response
+    } catch (error) {
+      console.log(error);
+      return error
+    }
+  };
+
+  const markerFunction = (marker: google.maps.Marker, index: number) => {
+    marker.addListener("click", () => {
+      // @ts-ignore
+      getMap().panTo(marker.getPosition())
+      console.log(state.customMarkers[index].id);
+    })
+  }
+
+  return { initMap, placeMarker, markerClusterer, ...toRefs(state), loadMarkers, markerFunction };
 };
 
 /* MAP PROPERTIES

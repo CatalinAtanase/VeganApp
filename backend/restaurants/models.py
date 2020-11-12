@@ -44,7 +44,7 @@ class RestaurantImages(models.Model):
 
 
 class Contact(TimeStamp):
-    restaurant = models.ForeignKey(
+    restaurant = models.OneToOneField(
         Restaurant,
         on_delete=models.CASCADE,
         related_name='contact'
@@ -64,7 +64,7 @@ class Contact(TimeStamp):
 
 
 class Coordinates(models.Model):
-    contact = models.ForeignKey(
+    contact = models.OneToOneField(
         Contact,
         on_delete=models.CASCADE,
         related_name='coordinates'
